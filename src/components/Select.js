@@ -9,7 +9,7 @@ const styles = {
 
 export default class Select extends Component {
   state = {
-    value: 1
+    value: ''
   };
 
   handleChange = (event, i, value) => {
@@ -17,6 +17,9 @@ export default class Select extends Component {
     this.setState({ value });
   };
 
+  handleReset = () => {
+    this.setState({ value: '' });
+  };
   menuItems(items) {
     return items.map(item =>
       <MenuItem key={item.id} value={item.value} primaryText={item.name} />
@@ -29,6 +32,7 @@ export default class Select extends Component {
         floatingLabelText={this.props.name}
         value={this.state.value}
         onChange={this.handleChange}
+        onReset={this.handleReset}
       >
         {this.menuItems(this.props.items)}
       </SelectField>
