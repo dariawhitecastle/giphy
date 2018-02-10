@@ -1,23 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Francois+One|Josefin+Sans:700|Work+Sans:600');
 .App {
   background-color: hsla(0, 0%, 0%, 1);
+  font-family: 'Josefin Sans';
   text-align: center;
   display: flex;
   flex-direction: column;
   color: hsla(0, 0%, 100%, 1);
+  height: 100vh;
 }
-.select {
-}
-.main-view-container {
+main {
   width: 50%;
   min-height: 80%;
-  margin: 10% auto;
+  margin: 50px auto;
   display: flex;
   flex-direction: column;
-  border: 10px solid pink;
+  border-top: 10px solid hsla(58, 100%, 73%, 1);
+  border-right: 10px solid hsla(259, 100%, 73%, 1);
+  border-bottom: 10px solid hsla(188, 100%, 57%, 1);
+  border-left: 10px solid hsla(166, 89%, 48%, 1);
+  align-items: center;
 }
-.App-title {
-  font-size: 1.5em;
+.button {
+  margin: 30px;
+  width: 50%;
+  background-color: hsla(321, 89%, 72%, 1);
 }
+img {
+  height: 300px;
+  width: 300px;
+  margin: 15px;
+}
+.primary {
+  margin: 20px auto;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+.secondary {
+  margin: 20px;
+  letter-spacing: 2px;
+}
+@media screen and (max-width: 768px) {
+  main {
+    min-width: 80%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  img {
+    height: 200px;
+    width: 200px;
+  }
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;

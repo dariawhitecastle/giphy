@@ -8,7 +8,7 @@ export const MONTHS = [
   { id: 7, value: 'itchy', name: 'July' },
   { id: 8, value: 'fail', name: 'August' },
   { id: 9, value: 'sleepy', name: 'September' },
-  { id: 10, value: 'adorable', name: 'October' },
+  { id: 10, value: 'happy', name: 'October' },
   { id: 11, value: 'playful', name: 'November' },
   { id: 12, value: 'shy', name: 'December' }
 ];

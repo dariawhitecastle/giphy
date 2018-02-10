@@ -10,10 +10,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Select from './components/Select.js';
 import { MONTHS, DAYS } from './const.js';
 
-const style = {
-  margin: 12,
-  maxWidth: 200
-};
 class App extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +17,8 @@ class App extends Component {
       selectedAdj: '',
       selectedAnimal: null,
       gif: 'https://media.giphy.com/media/ytwDCpH2VqBVXphoKk/giphy.gif',
-      loading: true
+      loading: true,
+      reset: false
     };
   }
   componentDidMount() {
@@ -29,18 +26,23 @@ class App extends Component {
       loading: false
     });
   }
+  // once the value of the form is updated with seacrh terms, we make an api call
+  // with the env var
   componentDidUpdate(prevProps, prevState) {
     if (this.state.selectedAnimal !== prevState.selectedAnimal) {
-      // TODO: add state handling
-      // TODO: add fetch another button
       const { selectedAdj, selectedAnimal } = this.state;
-
+      const apiKey = `&api_key=${process.env.REACT_APP_SECRET_CODE}`;
+      // while the gif is updating, we show loader
+      this.setState({ loading: true });
       const url = 'http://api.giphy.com/v1/gifs/search?q=';
-      const searchUrl = `${url}${selectedAdj}+${selectedAnimal}&&limit=25`;
+      const searchUrl = `${url}${selectedAdj}+${selectedAnimal}${apiKey}&limit=25`;
       return axios.get(searchUrl).then(res => {
+        // get a random gif out of an array pf 25 results
+        // turn the reset flag off
         const randomInt = this.getRandomInt(25);
         this.setState({
           gif: res.data.data[randomInt].images.original.url,
+          reset: false,
           loading: false
         });
       });
@@ -48,10 +50,10 @@ class App extends Component {
   }
   handleSelectMonth = value => this.setState({ selectedAdj: value });
   handleSelectDay = value => this.setState({ selectedAnimal: value });
+  // clear out form values on reset and pass the flag to Select children
   handleClick = () => {
     this.setState({
-      selectedAdj: '',
-      selectedAnimal: null,
+      reset: true,
       gif: 'https://media.giphy.com/media/ytwDCpH2VqBVXphoKk/giphy.gif'
     });
   };
@@ -62,39 +64,38 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
         <div className="App">
-          <div className="main-view-container">
-            <h3>Birthday gif</h3>
+          <main>
+            <h2 className="primary">Birthday gif</h2>
             <Select
               handleChange={this.handleSelectMonth}
-              onReset={this.handleClick}
-              className="select"
+              reset={this.state.reset}
               items={MONTHS}
               name={'Choose your birth Month'}
-            />
+            />{' '}
             <Select
               handleChange={this.handleSelectDay}
-              className="select"
-              onReset={this.handleClick}
+              reset={this.state.reset}
               items={DAYS}
               name={'Choose your birth Day'}
             />
             {this.state.selectedAdj &&
               this.state.selectedAnimal &&
-              <h3>
+              !this.state.reset &&
+              <h3 className="secondary">
                 Congratulations! You are a {this.state.selectedAdj}{' '}
                 {this.state.selectedAnimal}
               </h3>}
             {this.state.loading
               ? <img src={logo} className="App-logo" alt="logo" />
-              : <img src={this.state.gif} height="300" width="300" />}
+              : <img src={this.state.gif} alt="gif" />}
             <RaisedButton
+              className="button"
               secondary={true}
               onClick={this.handleClick}
-              style={style}
             >
               New Birthday gif!
             </RaisedButton>
-          </div>
+          </main>
         </div>
       </MuiThemeProvider>
     );
